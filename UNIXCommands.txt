@@ -8,9 +8,9 @@ Hhb148km
 
 MONDAY MORNING - BASH SCRIPTING
 
-pwd
-whoami
-ls
+pwd				#print working directory (where are you?)
+whoami			#current user id
+ls			
 ls -lh       	#Flag
 ls -ltr
 ls -F			#Show which are files
@@ -203,3 +203,16 @@ git config --global core.editor "edit -w"				#Selects text wrangler as auto text
 git config --list
 man git
 git config --help
+git init			#when in a folder you want git to version control
+ls -a				#will show you the hidden .git file it has made
+
+##############
+git status 			#while in folder, tells you what branch you're on and the files that it is tracking
+###############
+
+git add <file>		#track this file
+git add .			#track all files here
+git add --all		#track all files
+
+git commit			#saves the tracked files with a message in a text editor
+git commit -m "Add concerns about effects of Mars' moons on Wolfman"	#skips the editor part
