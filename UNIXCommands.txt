@@ -1,0 +1,205 @@
+Notes from Software Carpentry Workshop
+Oct 24, 2016
+
+Internet login info:
+
+biol-carpentry40
+Hhb148km
+
+MONDAY MORNING - BASH SCRIPTING
+
+pwd
+whoami
+ls
+ls -lh       	#Flag
+ls -ltr
+ls -F			#Show which are files
+ls -Fa			#Also show 
+clear			#Clear terminal
+<control> l		#Clear terminal
+<tab>			#Autocomplete
+/				#If at the beginning of a command, will start from the root
+ls /			#All inside root
+man <command>	#Help for your command
+.				#means here
+~				#Home
+cd - 			#Return to previous location
+cd .. 			#Up one level
+
+data-shell      #The folder of data we use
+
+nano
+nano workshop.txt	#makes a txt file and opens it for editing. .txt is only necessary for organization
+
+(for pcs use vim)
+
+cat				#prints the contents of the file
+less			#view part of a file
+q				#exit from less
+mkdir			#make a new folder
+rm 				#remove a file
+rm -r 			#remove a directory and all contents
+				#You can change your bash settings to make removing things harder
+<control> a or u #to move around on a line
+
+tree 			#a command that I don't have but it's cool. GET IT!
+wc				#word countwcwc
+*				#wildcard, unlimited size
+?				#wildcard, only one character
+[c]*			#must start with c, otherwise any other characters
+sort -n <file>	#will output sorted file contents
+head -n <number> #show that number of lines
+ls *[AB].txt	#show only files that end in A OR B
+
+Exercise: count the # lines in each txt file and sort by number of lines
+Solution: wc -l *.txt | sort -n > lines.txt
+
+Loops!
+
+for bazooka in *.txt
+do
+wc -l $bazooka
+done
+
+$				#takes the values of everything inside .txt and apply bazooka
+
+echo 			#tells you what file you're working with
+
+Write a for loop where you print the head of each file and its name
+
+For
+
+for filename in *.txt; 
+do 
+echo $filename | sort -n; 
+head -4 $filename; 
+done
+
+for X in *.txt
+do
+head -n 10 $X | wc -l			#extracts 10 lines from each file, tells you that it has 10 lines
+done
+
+
+
+Write a script that can be applied to any file
+
+$X								#in a for loop, applies command to each file separately
+$@								#Output file(s) specified
+$^								#Input file that you specified
+
+nano script.sh					#create a script file
+wc -l "$1"						#have it do something
+bash script.sh NENE01843A.txt	#apply your script to a file
+wc -l "$@"						#make it able to do this multiple times
+bash script.sh *.txt			#apply to all files
+
+grep 							#find					
+grep "is" <file>				#print all lines with "is"
+grep -w "is" <file> 			#print only lies withere "is" is the entire word
+\"								#to specify a quotation mark (i.e. you only want "thesis")
+sort -R							#randomize the order of lines - faster than in r
+
+MONDAY AFTERNOON - MAKE
+
+nano Makefile
+lines.txt: *.pdb
+	wc -l *.pdb > lines.txt		#Note, the <tab> is important at the beginning of the line
+	wc -c *.pdb > lines.txt		#character count
+	wc -w *.pdb > lines.txt
+	
+	
+lines.txt: *.pdb
+        wc -l $^ > $@
+
+words.txt: *.pdb
+        wc -w $^ > $@
+
+longest.txt: lines.txt
+        sort -n $< |  tail -2 | head -1 > $@
+
+.PHONY: clean
+clean:
+        rm words.txt
+        rm lines.txt
+
+= 								#specifies a variable instead of an argument
+$								#selects a variable
+%<something> %<something>		#pattern matching
+
+##############Makefile ### spits out file names
+
+PDB_FILES=$(wildcard *.pdb)
+LENGTH_FILES=$(patsubst %.pdb, %.length, $(PDB_FILES))
+
+.PHONY: LENGTH_FILES
+LENGTH_FILES:
+        @echo $(LENGTH_FILES)
+
+.PHONY: lengths
+lengths: *.length
+
+%.length: %.pdb
+        wc $< > $@
+
+.PHONY: clean
+clean:
+        rm *.length
+
+#################Makefile2  ###### actually makes the length files
+
+PDB_FILES=$(wildcard *.pdb)
+LENGTH_FILES=$(patsubst %.pdb, %.length, $(PDB_FILES))
+
+.PHONY: lengths
+lengths: $(LENGTH_FILES)
+
+%.length: %.pdb
+        wc $< > $@
+
+.PHONY: clean
+clean:
+        rm *.length
+        
+        
+###################
+
+ls *.pdb			#could be used instead of wildcard *.pdb
+$<					#this file (specified)
+^					#beginning of the line
+^##					#select ## at the beginning of the line    
+sed -n '///'		#
+sed -n '/^##//p'	# use ## for script purpose
+sed -n '/^# //'		# use # for script help
+
+
+#Make a file with all lines containing "is"
+
+nano Makefile
+
+is.txt: haiku.txt
+        grep -w "is" $< > $@  
+        
+make
+
+or 
+        grep -w "[Ii]s" $< > $@			#upper or lowercase I  
+        
+.PHONY				#used to specify a command that doesn't require a certain file to execute
+nano -w				#colours the types of things in the text file (it didn't work for me)
+
+
+#########################
+## D A Y 2 ##############
+#########################
+
+#Git
+
+git config --global user.name "sjbald"
+git config --global user.email "sjbald@gmail.com"
+git config --global color.ui "auto"
+
+git config --global core.editor "edit -w"				#Selects text wrangler as auto text editor
+git config --list
+man git
+git config --help
