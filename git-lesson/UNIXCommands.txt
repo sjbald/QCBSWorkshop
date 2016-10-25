@@ -216,3 +216,5 @@ git add --all		#track all files
 
 git commit			#saves the tracked files with a message in a text editor
 git commit -m "Add concerns about effects of Mars' moons on Wolfman"	#skips the editor part
+
+git diff			#tells you the difference between the added and committed file
