@@ -220,3 +220,5 @@ git commit -m "Add concerns about effects of Mars' moons on Wolfman"	#skips the 
 git diff			#tells you the difference between the added and committed file
 
 git log				#shows changes in reverse chronological order
+git log --oneline	#only shows your messages
+git log --oneline --decorate 	#shows colours
